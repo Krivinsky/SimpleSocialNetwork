@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SimleSocialNetwork.Models;
+using SimpleSocialNetwork.Models;
 using System.Diagnostics;
 
-namespace SimleSocialNetwork.Controllers
+namespace SimpleSocialNetwork.Controllers
 {
     public class HomeController : Controller
     {
