@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SimpleSocialNetwork.Models;
+using SimpleSocialNetwork.Models.Users;
 using SimpleSocialNetwork.ViewModels.Account;
 
-namespace SimpleSocialNetwork.Controllers
+namespace SimpleSocialNetwork.Controllers.Account
 {
     public class RegisterController : Controller
     {
@@ -20,24 +20,21 @@ namespace SimpleSocialNetwork.Controllers
             _signInManager = signInManager;
         }
 
-
-        // GET: RegisterController
-        public ActionResult Index()
+        [Route("Register")]
+        [HttpGet]
+        public IActionResult Register()
         {
-            return View();
+            return View("Home/Register");
         }
 
-        // GET: RegisterController/Details/5
-        public ActionResult Details(int id)
+        [Route("RegisterPart2")]
+        [HttpGet]
+        public IActionResult RegisterPart2(RegisterViewModel model)
         {
-            return View();
+            return View("RegisterPart2", model);
         }
 
-        // GET: RegisterController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        
 
         // POST: RegisterController/Create
         [HttpPost]
@@ -97,20 +94,6 @@ namespace SimpleSocialNetwork.Controllers
         }
 
         [Route("Register")]
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View("Home/Register");
-        }
-
-        [Route("RegisterPart2")]
-        [HttpGet]
-        public IActionResult RegisterPart2(RegisterViewModel model)
-        {
-            return View("RegisterPart2", model);
-        }
-
-        [Route("Register")]
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -123,7 +106,8 @@ namespace SimpleSocialNetwork.Controllers
                 {
                     await _signInManager.SignInAsync(user, false);
                     return RedirectToAction("Index", "Home");
-                } else
+                }
+                else
                 {
                     foreach (var error in result.Errors)
                     {

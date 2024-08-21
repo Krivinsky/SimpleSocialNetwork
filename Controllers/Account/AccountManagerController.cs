@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SimpleSocialNetwork.Models;
+using SimpleSocialNetwork.Models.Users;
+using SimpleSocialNetwork.ViewModels.Account;
 
-namespace SimpleSocialNetwork.Controllers
+namespace SimpleSocialNetwork.Controllers.Account
 {
     public class AccountManagerController : Controller
     {
@@ -18,11 +19,6 @@ namespace SimpleSocialNetwork.Controllers
             _mapper = mapper;
         }
         
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [Route("Login")]
         [HttpGet]
         public IActionResult Login()
@@ -30,10 +26,16 @@ namespace SimpleSocialNetwork.Controllers
             return View("Home/Login");
         }
 
+        [HttpGet]
+        public IActionResult Login(string returnUrl = null)
+        {
+            return View(new LoginViewModel { ReturnUrl = returnUrl });
+        }
+
         [Route("Login")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(ViewModels.Account.LoginViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -43,10 +45,11 @@ namespace SimpleSocialNetwork.Controllers
 
                 if (result.Succeeded)
                 {
-                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReurnUrl))
+                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     {
-                         return Redirect(model.ReturnUrl);
-                    } else
+                        return Redirect(model.ReturnUrl);
+                    }
+                    else
                     {
                         return RedirectToAction("Index", "Home");
                     }

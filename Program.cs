@@ -1,13 +1,15 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SimpleSocialNetwork;
-using SimpleSocialNetwork.Models;
+using SimpleSocialNetwork.Models.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//---------------------------------Подкдлючкние к БД--------------------------------------
-string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+//---------------------------------Подключение к БД--------------------------------------
+string? connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connection));
+//----------------------------------------------------------------------
+
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
     options.Password.RequiredLength = 5;
@@ -36,7 +38,6 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
