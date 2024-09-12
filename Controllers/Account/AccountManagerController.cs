@@ -59,7 +59,8 @@ namespace SimpleSocialNetwork.Controllers.Account
                     ModelState.AddModelError("", "Неправильный логин и (или) пароль");
                 }
             }
-            return View("Views/Home/Index.cshtml");
+            //return View("Views/Home/Index.cshtml");
+            return View(model);
         }
 
         [Route("Logout")]
@@ -71,5 +72,11 @@ namespace SimpleSocialNetwork.Controllers.Account
             return RedirectToAction("Index", "Home");
         }
 
+        [Route("MyPage")]
+        [HttpGet]
+        public async Task<IActionResult> MyPage()
+        {
+            return View();
+        }
     }
 }

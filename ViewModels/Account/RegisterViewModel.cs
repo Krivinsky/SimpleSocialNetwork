@@ -47,7 +47,6 @@ namespace SimpleSocialNetwork.ViewModels.Account
         [DataType(DataType.Text)]
         [Display(Name = "Никнейм", Prompt = "Введите никнейм")]
         public string Login { get; set; }
-
     }
 }
 

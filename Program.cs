@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SimpleSocialNetwork;
@@ -20,8 +21,17 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 })
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+var mapperConfig = new MapperConfiguration((v) =>
+{
+    v.AddProfile(new MappingProfile());
+});
+
+IMapper mapper = mapperConfig.CreateMapper();
+
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton(mapper);
 
 var app = builder.Build();
 
@@ -38,10 +48,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();
